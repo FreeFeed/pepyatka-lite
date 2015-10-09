@@ -19,7 +19,7 @@
             {
 	    	"schemes":[
 			"//youtu.be/",
-			"//www.youtube.com/watch"
+			"//(www|m).youtube.com/watch"
 		],
                 "url": "https:\/\/www.youtube.com\/oembed",
                 "discovery": true

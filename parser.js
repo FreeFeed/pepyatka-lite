@@ -982,7 +982,7 @@ function genPost(post){
 		}else gotUser();
 	}
 	function gotUser(){
-		
+		var urlMatch ;		
 		if(( typeof gConfig["blockPosts"]!== "undefined")&& (gConfig["blockPosts"] != null)&& (gConfig["blockPosts"][user.id])){
 			nodePost.hidden = true  ;
 		}
@@ -1016,11 +1016,13 @@ function genPost(post){
 
 				}
 			});		
-		}else if(postNBody.cNodes["post-cont"].getElementsByTagName("a").length
+		}else 
+		//if(((urlMatch = post.body.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/) )!= null)
+		if(((urlMatch = post.body.match(/https?:\/\/[^\s\/$.?#].[^\s]*/i) )!= null)
 		&&(window.localStorage.getItem("show_link_preview") == "1")){
 			gEmbed.p.then(function(oEmbedPr){
 				embedPreview(oEmbedPr
-					,postNBody.cNodes["post-cont"].getElementsByTagName("a")[0].href
+					,urlMatch[0]
 					,postNBody.cNodes["attachments"] 
 				);
 			});
