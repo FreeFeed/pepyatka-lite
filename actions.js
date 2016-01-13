@@ -174,7 +174,7 @@ _Actions.prototype = {
 					nodePost.sign = cpost.sign;
 				}
 				*/
-				postCNode.innerHTML = cView.autolinker.link(post.body.replace(/\n/g,"").replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+				postCNode.innerHTML = cView.autolinker.link(post.body.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 				postCNode.className = "post-cont";
 				nodePost.rawData = post;
 				nodePost.cNodes["post-body"].replaceChild(postCNode,e.target.parentNode.parentNode );
@@ -494,7 +494,7 @@ _Actions.prototype = {
 			if(this.status < 400){
 				var comment = JSON.parse(this.response).comments;
 				nodeComment.parentNode.replaceChild(cView.Drawer.genComment(comment),nodeComment);
-				cView.gComments[comment.id] = comment;
+				cView.gComments[comment.id] = cView.autolinker.link(comment.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 
 			}
 		};

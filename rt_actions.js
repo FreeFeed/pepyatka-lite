@@ -174,7 +174,7 @@ RtHandler.prototype = {
 		var cView = document.cView;
 		var nodePost = document.getElementById(data.posts.id);
 		if(!nodePost) return;
-		nodePost.cNodes["post-body"].cNodes["post-cont"].innerHTML = autolinker.link(data.posts.body.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+		nodePost.cNodes["post-body"].cNodes["post-cont"].innerHTML = cView.autolinker.link(data.posts.body.replace(/&/g,"&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 		nodePost.rawData.body = data.posts.body;
 	}
 	, "post:destroy" : function(data){

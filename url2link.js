@@ -17,8 +17,10 @@ function _Url2link(cfg){
 _Url2link.prototype = {
 	constructor:_Url2link
 	,"trunc": 0
+	,"bra": "([{*%$'\""
+	,"ket": ")]}*%$'\""
 	,"url":{
-		"regex": /((?:https?:\/\/)?(?:[^\s\/~!@#$^&*()_?:;|\\]+\.)+(?:[^\s\/~!@#$^&*()_?:;|\\]\.){2,}(?:\.)?(?::[0-9]+)?(?:\/[^\s]*)*)/
+		"regex": /((?:https?:\/\/)?(?:[^\s\/~!@#$^&*()_?:;|\\]+\.)+(?:[^\s\/~!@#$^&*()_?:;|\\\.]){2,}(?:\.)?(?::[0-9]+)?(?:\/[^\s]*)*)/
 		,"flags": "i"
 		,"newtab": true
 		,"action":function(match,host){
@@ -49,22 +51,38 @@ _Url2link.prototype = {
 		var out = new Array();
 		["url","uname"].forEach(function (t){
 			var conv = that[t];
+			var idxEnd;
+			var idxBra;
 			var oMatch;
-			regex = new RegExp("(^|\\s)"+conv.regex.source, conv.flags+"g");
-			while((oMatch = regex.exec(text) )!== null)
+			var val;
+			var regex = new RegExp("(^|\\s|.)"+conv.regex.source, conv.flags+"g");
+			while((oMatch = regex.exec(text) )!== null){
+				idxEnd = regex.lastIndex;
+				val = oMatch[2];
+				if((oMatch[1] != "")
+				&&((idxBra = that.bra.indexOf(oMatch[1])) != -1)){
+					idxEnd = oMatch[2].lastIndexOf(that.ket.charAt(idxBra));
+					if (idxEnd != -1){
+						val =  oMatch[2].slice(0,idxEnd++);
+						idxEnd += oMatch.index;
+					}
+					else idxEnd = regex.lastIndex;
+				}
+				
 				matches.push({
 					"type":t
-					,"pre":oMatch[1]
-					,"val":oMatch[2]
+					,"prefix":oMatch[1]
+					,"val":val
 					,"start":oMatch.index
-					,"end":regex.lastIndex
+					,"end":idxEnd
 				});
+			}
 		});
 		matches.sort(function(a,b){return a.start - b.start;});
 		var lastPos = 0;
 		matches.forEach(function(m){
 			out.push(text.slice(lastPos,m.start));
-			out.push(m.pre+that[m.type].action(m.val,that));
+			out.push(m.prefix+that[m.type].action(m.val,that));
 			lastPos = m.end;
 		});
 		out.push(text.slice(lastPos));
