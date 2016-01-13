@@ -300,14 +300,16 @@ _Utils.prototype = {
 		txtgMe = cView.localStorage.getItem("gMe");
 		if (txtgMe && cView.token){
 			cView.logins = JSON.parse(txtgMe);
-			if(cView.ids && (typeof cView.logins[cView.ids[0]].token !== "undefined"))cView.ids.forEach(function(id) {
-				var user = cView.logins[id].data;
-				if (cView.token == cView.logins[id].token)cView.mainId = id;
-				Utils.addUser(user.users);
-				Utils.refreshLogin(id);
-				setTimeout(function (){ Utils.getWhoami(id); },300);
+			if(cView.ids && (typeof cView.logins[cView.ids[0]].token !== "undefined")){
+				cView.ids.forEach(function(id) {
+					var user = cView.logins[id].data;
+					if (cView.token == cView.logins[id].token)cView.mainId = id;
+					Utils.addUser(user.users);
+					Utils.refreshLogin(id);
+					setTimeout(function (){ Utils.getWhoami(id); },300);
+				});
 				return true;
-			});else cView.logins = new Object();
+			}else cView.logins = new Object();
 
 		}
 
