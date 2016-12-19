@@ -51,14 +51,14 @@
 	}		
 	,"local":{ "api":"freefeed"
 		,"server":{
-			 "serverURL":"https://10.8.0.1/v1/"
-			 ,"serverURLV2":"https://10.8.0.1/v2/"
-			,"rtURL":"https://10.8.0.1/socket.io/"
+			 "serverURL":"https://dev.moimosk.ru/v1/"
+			 ,"serverURLV2":"https://dev.moimosk.ru/v2/"
+			,"rtURL":"https://dev.moimosk.ru/socket.io/"
 		}
 		,"tokenPrefix":"local_"
-		,"front":"10.8.0.1"
-		,"fronts":["10.8.0.1"]
-		,"search":"https://10.8.0.1/search"
+		,"front":"dev.moimosk.ru"
+		,"fronts":["dev.moimosk.ru"]
+		,"search":"https://dev.moimosk.ru/search"
 		,"msg":"Local FrF test server"
 		,"urlSkip":[]
 	}		

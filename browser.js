@@ -341,5 +341,15 @@ function setLocalSettings(){
 					
 		});
 	}
+	var plugins = cView.localStorage.getItem("plugins");
+	if(plugins){
+		try{
+			JSON.parse(plugins).forEach(function(plugin){
+				var nodeScript = cView.doc.createElement("script");
+				nodeScript.src = plugin;
+				cView.doc.body.appendChild(nodeScript);
+			});
+		}catch(e){console.log(e);};
+	}
 
 }

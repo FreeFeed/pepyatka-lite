@@ -91,6 +91,8 @@ function xhr (o){
 	return new _Promise(function( resolve, reject ){
 		var method = typeof o.method  !== "undefined"? o.method : "get";
 		var oReq = new XMLHttpRequest();
+		var headers;
+
 		oReq.open(method ,o.url , true);
 		if(typeof o.token !== "undefined" )
 			oReq.setRequestHeader("X-Authentication-Token",o.token);
@@ -98,12 +100,26 @@ function xhr (o){
 			if((o.headers[header] !== undefined)&&(o.headers[header] !== null))
 				oReq.setRequestHeader(header,o.headers[header]);
 		});
-		oReq.onload = function(){
-			if(oReq.status < 400) resolve(oReq.response);
-			else reject({"code":oReq.status, "data":oReq.response});
+		if(typeof o.withCredentials !== "undefined" )
+			oReq.withCredentials = o.withCredentials;
+		oReq.onreadystatechange = function(){
+			if(oReq.readyState == 2){
+				headers = oReq.getAllResponseHeaders()
+				return;
+			}
+			if(oReq.readyState != 4) return;
+			var ret = oReq.response;
+			if(o.getHeaders === true) 
+				ret = {"headers": oReq.getAllResponseHeaders(), "data":oReq.response};
+			if(oReq.status < 400) resolve(ret);
+			else reject({"code":oReq.status, "data":ret});
 		}
 		oReq.onerror = function(){
-			reject({"code":oReq.status, "data":oReq.response});
+			reject({"code":oReq.status
+				,"data":oReq.response
+				,"headers":headers
+				,"msg":"Request error"
+			});
 		};
 		try{
 			if (typeof o.data  !== "undefined")  oReq.send(o.data);

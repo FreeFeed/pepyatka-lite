@@ -169,6 +169,9 @@ _Drawer.prototype = {
 		case "blocks":
 			drawBlocks();
 			break;
+		case "import":
+			drawImport();
+			break;
 		case "display":
 		default:
 			drawDisp();
@@ -254,6 +257,17 @@ _Drawer.prototype = {
 			cView.Common.updateBlockList();
 
 			
+		}
+		function drawImport(){
+			cView.Utils.xhr({
+				"url":"https://dev.moimosk.ru/v2/importAuth/facebook"
+				,"token":cView.contexts.local.token 
+				,"withCredentials":true
+			}).then(function(res){
+				console.log(JSON.parse(res).authURL);
+			}, console.log);
+		
+
 		}
 		function drawDisp(){
 			nodeSettingsHead.cNodes["sh-displ"].className = "sh-selected";
@@ -681,6 +695,7 @@ _Drawer.prototype = {
 		var urlMatch ;		
 		nodePost.hidden = cView.Common.chkBlocked(post);
 		nodePost.gotLock  = false;
+		nodePost.gotShield = false ;
 		if(typeof user !== "undefined"){
 			nodePost.cNodes["avatar"].cNodes["avatar-h"].innerHTML = '<img src="'+ user.profilePictureMediumUrl+'" />';
 			nodePost.cNodes["avatar"].cNodes["avatar-h"].userid = user.id;
@@ -707,7 +722,7 @@ _Drawer.prototype = {
 					nodeImg.style.height = 0;
 					var showUnfolder =  (post.src === "rt")?	
 						cView.Actions.showUnfolderRt
-						:cView.Actions.showUnfolder
+						:cView.Actions.showUnfolder;
 					nodeImg.addEventListener("load", showUnfolder);
 					nodeA.appendChild(nodeImg);
 					nodeAtt.appendChild(nodeA);
@@ -732,7 +747,7 @@ _Drawer.prototype = {
 				Drawer.embedPreview(oEmbedPr
 					,urlMatch[0]
 					,postNBody.cNodes["attachments"] 
-				).then((post.src == "rt")?cView.Utils.unscroll:function(){});
+				).then(((post.src == "rt")?cView.Utils.unscroll:function(){}));
 			});
 		}
 		var anchorDate = cView.doc.createElement("a");
@@ -800,6 +815,7 @@ _Drawer.prototype = {
 		else if(post.postedTo){
 			post.postedTo.forEach(function(id){
 				nodePost.gotLock = context.gFeeds[id].isPrivate;
+				nodePost.gotShield = context.gFeeds[id].isProtected;
 				nodePost.direct = context.gFeeds[id].direct;
 			});
 			if ((post.postedTo.length >1)||(context.gFeeds[post.postedTo[0]].user.id!=user.id)){
