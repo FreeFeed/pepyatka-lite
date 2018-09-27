@@ -62,4 +62,16 @@
 		,"msg":"Local FrF test server"
 		,"urlSkip":[]
 	}		
+	,"vk":{ "api":"vk"
+		,"server":{
+			 "serverURL":"https://10.8.0.1/v1/"
+			,"rtURL":"https://10.8.0.1/socket.io/"
+		}
+		,"tokenPrefix":"vk_"
+		,"front":"10.8.0.1"
+		,"fronts":["10.8.0.1"]
+		,"search":"https://10.8.0.1/search"
+		,"msg":"ВКонтекте!"
+		,"urlSkip":[]
+	}		
 }
