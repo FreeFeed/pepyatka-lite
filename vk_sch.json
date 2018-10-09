@@ -1,0 +1,109 @@
+"newsfeed.get":{
+	"items":[...]
+	,"profiles":[...]
+	,"groups":[...]
+	,"next_from":"id"
+}
+
+,"item":{
+	"type":"filters:"
+	,"source_id":"user/grp"
+	,"date":"unixtime"
+	,"post_id":"id"
+	,"post_type":""
+	,"copy_owner_id":"id"
+	,"copy_post_id":"id"
+	,"copy_history":[...]
+	,"copy_post_date":"unixtime?"
+	,"text":"txt_data"
+	,"can_edit":"bool"
+	,"can_delete":""
+	,"comments":{"count":"int","can_post":"bool"}
+	,"likes":{"count":"int","user_likes":"bool","can_like":"bool","can_publish":"bool" }
+	,"reposts":{"count":"int", "user_reposted":"bool"}
+	,"attachments":[...]
+	,"geo":{
+		"place_id":"id"
+		,"title":"text"
+		,"type":"text"
+		,"country_id":"id"
+		,"city_id":"id"
+		,"address":"text"
+		,"showmap":"?"
+	}
+}
+,"attachments":[
+	"photo","posted_photo","video", "audio", "doc"
+	,"graffiti", "link", "note", "app", "poll"
+	,"page", "album", "photos_list", "market"
+	, "market_album", "sticker", "pretty_cards"
+]
+,"photo":{
+	"id":"integer"
+	,"album_id":"integer"
+	,"owner_id":"integer"
+	,"user_id":"integer"
+	,"text":"string"
+	,"date":"integer"
+	,"sizes":[...]
+	,"width*":"integer"
+	,"height*":"integer" 
+}
+,"posted_photo":{
+	"id":"integer"
+	,"owner_id":"integer"
+	,"photo_130":"url"
+	,"photo_604":"url"
+}
+,"doc": {
+	"id":"integer"
+	,"owner_id":"integer"
+	,"title":"string"
+	,"size":"integer"
+	,"ext":"string"
+	,"url":"string"
+	,"date":"integer"
+	,"type":"integer"
+	,"preview":{"photo"||"graffiti"||"audio_message"} 
+
+}
+,"graffiti":{
+	"id":"integer"
+	,"owner_id":"integer"
+	,"photo_130":"string"
+	,"photo_604":"string"
+}
+,"album":{
+	"id":"integer"
+	,"thumb":"photo"
+	,"owner_id":"integer"
+	,"title":"string"
+	,"description":"string"
+	,"created":"integer"
+	,"updated":"integer"
+	,"size":"integer"
+}
+,"vidoe":{
+	,"id":"integer"
+	,"owner_id":"integer"
+	,"title":"string"
+	,"description":"string"
+	,"duration":"integer"
+	,"photo_130":"string"
+	,"photo_320":"string"
+	,"photo_640":"string"
+	,"photo_800":"string"
+	,"date":"integer"
+	,"adding_date":"integer"
+	,"views":"integer"
+	,"comments":"integer"
+	,"player":"string"
+	,"platform":"string"
+	,"can_edit":"integer [1]"
+	,"can_add":"integer [0,1]"
+	,"is_private":"integer [1]"
+	,"access_key":"string"
+	,"processing":"integer [1]"
+	,"live":"integer [1]"
+	,"upcoming":"integer [1]"
+}
