@@ -472,7 +472,7 @@ define("./router",[],function(){
 			domains.forEach(function(domain){ 
 				var context = contexts[domain];
 				prContxt.push(context.p);
-				prConts.push(context.api[source](context.token,path, cView.skip));
+				prConts.push(context.api[source](context.token,path, cView.skip, cView.localStorage.getItem("friends-view")));
 			});
 			var prAllT = some(cView.Utils._Promise, prConts);
 			var prAllC = cView.Utils._Promise.all(prContxt);

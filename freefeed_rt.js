@@ -92,7 +92,9 @@ RtUpdate.prototype = {
 	, subscribe: function (timeline){
 		var rt = this;
 		function sendSubReq(sub){
-			rt.wSocket.send("42"+JSON.stringify(["subscribe", sub]));
+			var req = "42"+JSON.stringify(["subscribe", sub]);
+			console.log("RT:"+req);
+			rt.wSocket.send(req);
 		}
 		if(!rt.ready)rt.ready = rt.connect();
 		if (typeof timeline === "undefined") 
@@ -113,7 +115,12 @@ RtUpdate.prototype = {
 		this.subscribe({"post":[data.posts.id]});
 	}
 	,"rtSubTimeline": function(data){
-		this.subscribe({"timeline":[data.timelines.id]});
+		var cView = this.context.cView;
+		var query = "";
+		var homeMode = cView.localStorage.getItem("friends-view");
+		if ((data.timelines.name == "RiverOfNews") && (typeof homeMode == "string" ))
+			query = "?homefeed-mode=" + homeMode; 
+		this.subscribe({"timeline":[data.timelines.id+query]});
 	}
 } 
 return RtUpdate;

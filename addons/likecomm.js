@@ -131,6 +131,7 @@ var handlers = {
 		arrNodes = Array.isArray(arrNodes)?arrNodes:[arrNodes];
 		var cmts = new Object();
 		arrNodes.forEach(function(node){
+			var domain;
 			switch(node.classList[0]){
 			case "post":
 				domain = node.rawData.domain;

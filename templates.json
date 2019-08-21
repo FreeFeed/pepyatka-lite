@@ -563,6 +563,28 @@
 			}
 			,{"t":"span","txt":"Username"}
 		]}
+		,{"t":"h3", "txt":"Home feed preferences"}
+		,{"t":"label"
+		,"el":[
+			{"t":"input" ,"p":{"type":"radio" ,"name":"friends-view", "value":"friends-only"}
+				,"e":{"change":["Actions","setRadioOption"]}
+			}
+			,{"t":"span","txt":"Posts written by your friends or posted to groups you are subscribed to"}
+		]}
+		,{"t":"label"
+		,"el":[
+			{"t":"input" ,"p":{"type":"radio" ,"name":"friends-view", "value":"classic"}
+				,"e":{"change":["Actions","setRadioOption"]}
+			}
+			,{"t":"span","txt":"Add posts liked/commented on by your friends (default setting)"}
+		]}
+		,{"t":"label"
+		,"el":[
+			{"t":"input" ,"p":{"type":"radio" ,"name":"friends-view", "value":"friends-all-activity"}
+				,"e":{"change":["Actions","setRadioOption"]}
+			}
+			,{"t":"span","txt":"Also add your friends' activity in groups you are not subscribed to"}
+		]}
 		,{"t":"h3","txt":"Link previews"}
 		,{"t":"label"
 		,"el":[

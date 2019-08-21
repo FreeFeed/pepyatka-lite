@@ -12,13 +12,21 @@ return function(config){
 		"name": "FreeFeed"
 		,"protocol":{
 			"get": get
-			,"getTimeline": function(token, timeline, skip) {
+			,"getTimeline": function(token, timeline, skip, mode) {
 				if (timeline == "filter/best_of") return get2( token 
 					,"bestof" + "?offset="+skip
 				);
 				if (timeline == "filter/everything") return get2( token 
 					,"everything" + "?offset="+skip
 				);
+				if (timeline == "home"){
+					var modeQ = "";
+					if(typeof mode == "string" )
+						modeQ = "?homefeed-mode="+ mode;  
+					return get2( token 
+						,"timelines/home" + "?offset="+skip + modeQ
+					);
+				}
 				return get2( token 
 					,"timelines/"+ timeline + "?offset="+skip
 				);

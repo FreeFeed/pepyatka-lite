@@ -176,7 +176,7 @@ var payload = [
 				if(!arrNodes)return;
 				arrNodes = Array.isArray(arrNodes)?arrNodes:[arrNodes];
 				arrNodes.forEach(function(node){
-					post = node.getNode(["p","post"]).rawData;
+					var post = node.getNode(["p","post"]).rawData;
 					var context = cView.contexts[post.domain];
 					post.postedTo.forEach(function(feed){
 						context.gFeeds[feed].user.updatedAt = Date.now();

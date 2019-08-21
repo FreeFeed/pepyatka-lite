@@ -1347,6 +1347,7 @@ _Actions.prototype = {
 		}
 
 		oUser.description = nodeProfile.cNodes["gs-descr"].value;
+		oUser.homeFeedMode = nodeProfile.cNodes["friends-view"].value;
 		var nodeMsg = nodeProfile.getElementsByClassName("update-status")[0];
 		nodeMsg.className = "update-status";
 		nodeMsg.innerHTML = "";
