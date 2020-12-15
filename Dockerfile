@@ -16,5 +16,5 @@ RUN rm -rf node_modules && \
 
 FROM scratch
 
-COPY --from=builder /vanilla /var/www/pepyatka-lite
-VOLUME /var/www/pepyatka-lite
+COPY --from=builder /vanilla /var/www/vanilla
+VOLUME /var/www/vanilla
