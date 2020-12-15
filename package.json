@@ -10,7 +10,7 @@
     "css-loader": "^2.1.1",
     "exports-loader": "^0.6.3",
     "mini-css-extract-plugin": "^0.7.0",
-    "openpgp": "^1.4.1",
+    "openpgp": "^4.6.2",
     "postcss": "^7.0.17",
     "postcss-loader": "^3.0.0",
     "precss": "^1.4.0",

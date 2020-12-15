@@ -1,5 +1,6 @@
 "use strict";
 
+var vote2020 = require("./vote2020.js");
 define("./addons/sidebar", [],function(){
 function isLogged (cView){
 	var domains = Object.keys(cView.contexts);
@@ -23,7 +24,9 @@ function populateSidebar(cView, nodeSidebar, elements){
 	elements.forEach(function(elmt){
 		if(!elmt.test(cView))return;
 		var node = cView.gNodes["sidebar-emt"].cloneAll();
-		node.cNodes["sb-emt-title"].innerHTML = elmt.title;
+		if (typeof elmt.title === "function" ) 
+			node.cNodes["sb-emt-title"].innerHTML = elmt.title(cView);
+		else node.cNodes["sb-emt-title"].innerHTML = elmt.title;
 		elmt.content(cView).forEach(node.cNodes["sb-emt-content"].appendChild, node.cNodes["sb-emt-content"]);
 		nodeSidebar.appendChild(node);
 	});
@@ -54,7 +57,11 @@ var payload = [
 		}
 		,"test":always  
 	}
-	
+		
+	,{"title":vote2020.title
+		,"content":vote2020.content
+		,"test":vote2020.test
+	}
 	,{"title":"Moon"
 		,"content":function(cView){
 			var suncalc = require("suncalc");
