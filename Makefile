@@ -1,5 +1,5 @@
 VERSION = $(shell git describe --tags --always)
-BUILD_ENV ?= unstable
+BUILD_ENV ?= stable
 IMAGE = freefeed/vanilla-$(BUILD_ENV)
 
 image:
