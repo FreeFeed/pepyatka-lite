@@ -1453,7 +1453,7 @@ _Actions.prototype = {
 		nodeProf.parentNode.removeChild(nodeProf);
 		if(token ==  context.token){
 			context.token = null;
-			nodesProf = cView.doc.getElementsByClassName("settings-profile");
+			var nodesProf = cView.doc.getElementsByClassName("settings-profile");
 			if (!nodesProf.length) return cView.Actions.logout(e);
 			for (var idx = 0; idx < nodesProf.length; idx++ ){
 				var nodeProf = nodesProf[idx];
@@ -1591,7 +1591,7 @@ _Actions.prototype = {
 		var host = e.target.getNode(["p","add-sender"]);
 		var nodePopup = cView.Drawer.genAddSender(function(login,context){
 			if(typeof login === "undefined")return;
-			var globalId = login.domain + "-" + login.id;
+			var globalId = login.domain + "-" + login.users.id;
 			if (host.ids.indexOf(globalId) == -1 ) {
 				host.ids.push(globalId);
 				cView.updPostTo(login,false, login.users.username);
@@ -1613,7 +1613,8 @@ _Actions.prototype = {
 	,"newPostRmSender":function(e){
 		var host = e.target.getNode(["p","post-to"]);
 		var ids = document.getElementsByClassName("add-sender")[0].ids;
-		ids.splice(ids.indexOf(e.target.parentNode.userid),1);
+		var globalId = e.target.parentNode.domain + "-" + e.target.parentNode.userid;
+		ids.splice(ids.indexOf(globalId),1);
 		host.removeChild(e.target.parentNode);
 		var rmSenders = host.getElementsByClassName("rm-sender");
 		if(rmSenders.length == 1)rmSenders[0].hidden = true;

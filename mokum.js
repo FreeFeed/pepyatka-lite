@@ -52,20 +52,20 @@ return function(config){
 		return utils._Promise.all([pUser, pSubs, pReqs]).then(function(res){
 			var whoami = res[0];
 			var subs = res[1].map(JSON.parse);
-			var subscriptions = subs[1].subscriptions.map(function(sub){
-				sub = sub.user;
+			var subscriptions = subs[1].subscriptions.map(function(sub_id){
+				var sub = subs[1].users[sub_id];
 				sub.type = "user";
 				sub.id =  sub.id.toString();
 				return sub;
-			}).concat(subs[1].group_subscriptions.map(function(sub){
-				sub = sub.group;
+			}).concat(subs[1].group_subscriptions.map(function(sub_id){
+				var sub = subs[1].groups[sub_id];
 				sub.type = "group";
 				sub.id = "groups/" + sub.id;
 				return sub;
 			}));
 
-			whoami.user.subscribers = subs[0].subscribers.map(function(sub){
-				sub = sub.user;
+			whoami.user.subscribers = subs[0].subscribers.map(function(sub_id){
+				var sub = subs[0].users[sub_id];
 				sub.id = sub.id.toString();
 				return sub;
 			});
@@ -105,12 +105,12 @@ return function(config){
 					var subscriptions = new Array();
 					if (typeof  res.subscriptions !== "undefined" )
 						subscriptions = res.subscriptions.map(function(sub){
-							sub = sub.user;
+							sub = res.users[sub];
 							sub.type = "user";
 							sub.id =  sub.id.toString();
 							return sub;
 						}).concat(res.group_subscriptions.map(function(sub){
-							sub = sub.group;
+							sub = res.groups[sub];
 							sub.type = "group";
 							sub.id = "groups/" + sub.id;
 							return sub;
@@ -118,7 +118,7 @@ return function(config){
 
 					if (typeof  res.subscribers!== "undefined" )
 						subscribers = res.subscribers.map(function(sub){
-							sub = sub.user;
+							sub = res.users[sub];
 							sub.id = sub.id.toString();
 							return sub;
 						});
@@ -199,11 +199,14 @@ return function(config){
 			}
 			,"getNotifications": unsupported
 			,"sendPost": function(token, postdata, sender, type, timelineId){
+				var atts =  Array.isArray(postdata.post.attachments)?
+					postdata.post.attachments.map(Number)
+					: new Array();
 				var post = {
 					"timelines": new Array()
 					,"text": postdata.post.body
 					,"comments_disabled":0
-					,"attachment_ids":postdata.post.attachments//.map(Number)
+					,"attachment_ids":atts
 				}; 
 				var dests = postdata.meta.feeds;
 				var myIdx = dests.indexOf(sender);
@@ -545,7 +548,10 @@ return function(config){
 	
 				}
 				,"requests":{"out":"", "post":postUser}
-				,"river":{"out":"timelines"}
+				,"river":{"out":"timelines","a":"mutate", "f":function(t){
+					t.id = t.uuid;
+					return t;
+				}}
 				,"reason":{"out":"postedTo" ,"a":"mutate","f":function(val){
 					var feeds = new Array();
 					Object.keys(val).forEach(function(key){
@@ -587,6 +593,10 @@ return function(config){
 				,"subscriptionRequests":{"out":"", "a":"copy"}
 				,"subscriptions":{"out":"","a":"copy"}
 				,"text":{"out":"body","a":"copy"}
+				,"timelines":{"out":"timelines","a":"mutate", "f":function(t){
+					t.id = t.uuid;
+					return t;
+				}}
 				,"thumb_url":{"out":"thumbnailUrl","a":"mutate", "f":addHost}
 				,"thumb_width":{"out":"","a":"copy"}
 				,"thumb_height":{"out":"","a":"copy"}
@@ -601,7 +611,7 @@ return function(config){
 					}
 				}
 				,"user_liked":{"out":"","a":"copy"}
-				,"uuid":{"out":"id","a":"copy"}
+				,"uuid":{"out":"","a":"copy"}
 			}
 			var out = convert(input);
 			if((typeof out.subscribers === "undefined")&&Array.isArray(out.users))
@@ -626,6 +636,7 @@ return function(config){
 				var oOut = new Object();
 				Object.keys(oData).forEach(function(key){
 					var val = oData[key];
+				if (typeof val === "undefined")val = [];
 					var conv = convs[key];
 					var res;
 					if(typeof conv !== "undefined"){

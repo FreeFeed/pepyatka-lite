@@ -468,7 +468,7 @@ _Drawer.prototype = {
 	} 
 	,"drawPost": function(content,context) {
 		var cView = this.cView;
-		var singlePost = cView.Drawer.genPost(content);
+		var singlePost = cView.Drawer.users.genPost(content);
 		var body = cView.doc.getElementById("container");
 		body.appendChild(singlePost);
 		var nodesHide = singlePost.getElementsByClassName("hide");
@@ -1166,7 +1166,7 @@ _Drawer.prototype = {
 			nodePostTo.cNodes["mu-login"].hidden = false;
 			victim.cNodes["add-sender"].hidden = false;
 			if (typeof victim.cNodes["add-sender"].ids === "undefined")
-				victim.cNodes["add-sender"].ids = [context.gMe.users.id];
+				victim.cNodes["add-sender"].ids = [context.domain + "-"+ context.gMe.users.id];
 		}
 
 		victim.cNodes["post-to"].appendChild(nodePostTo);
@@ -1226,13 +1226,15 @@ _Drawer.prototype = {
 		var input = nodePostTo.getNode(["c","new-feed-input"],["c","input"]);
 		input.suggest = oSuggest;
 		input.dest = oDest;
-		cView.updPostTo = function (login,clean){
+		cView.updPostTo = function (login,clean,_init){
 			if(clean == true) {
 				document.getElementsByClassName("add-sender")[0].ids = new Array();
 				var victims = document.getElementsByClassName("new-post-to");
 				while(victims.length)victims[0].parentNode.removeChild(victims[0]);
 			}
-			return cView.Drawer.genPostTo(victim, init,login);
+			if(typeof _init === "undefined")
+				return cView.Drawer.genPostTo(victim, init,login);
+			return cView.Drawer.genPostTo(victim, _init,login);
 		};
 		
 		var rmSenders = victim.getElementsByClassName("rm-sender");
