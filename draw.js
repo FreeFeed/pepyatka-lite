@@ -468,7 +468,7 @@ _Drawer.prototype = {
 	} 
 	,"drawPost": function(content,context) {
 		var cView = this.cView;
-		var singlePost = cView.Drawer.users.genPost(content);
+		var singlePost = cView.Drawer.genPost(content);
 		var body = cView.doc.getElementById("container");
 		body.appendChild(singlePost);
 		var nodesHide = singlePost.getElementsByClassName("hide");
