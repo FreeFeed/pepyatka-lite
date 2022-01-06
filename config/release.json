@@ -1,8 +1,8 @@
 var gConfig = {
-    "serverURL":"https://m.freefeed.net/v1/"
-    , "front":"https://m.freefeed.net/"
-    , "static":"https://m.freefeed.net/s/"
-    , "rtURL":"https://m.freefeed.net/socket.io/"
+    "serverURL":"https://vanilla.freefeed.net/v1/"
+    , "front":"https://vanilla.freefeed.net/"
+    , "static":"https://vanilla.freefeed.net/s/"
+    , "rtURL":"https://vanilla.freefeed.net/socket.io/"
     , "offset":"30"
     , "likesFold":4
     , "tokenPrefix":"freefeedBETA_"
